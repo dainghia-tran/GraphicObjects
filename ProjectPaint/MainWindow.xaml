@@ -9,8 +9,12 @@
         Title="Project Paint" Height="450" Width="800" WindowStartupLocation="CenterScreen">
     <DockPanel LastChildFill="True">
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Height="50">
-            <Label Content="Color:" VerticalAlignment="Center"></Label>
+            <Label Content="Pen color:" VerticalAlignment="Center"/>
             <xctk1:ColorPicker Name="ColorPicker" Width="50" Height="25" SelectedColor="Black" SelectedColorChanged="ColorPicker_SelectedColorChanged"/>
+            <Border Width="1" Margin="10" Background="LightGray"/>
+            <Label Content="Pen thickness:" VerticalAlignment="Center"/>
+            <xctk1:DoubleUpDown Name="penThicknessChooser" Width="50" Height="25" Value="1" Minimum="1" ValueChanged="penThicknessChooser_ValueChanged" />
+            <Border x:Name="thicknessPreview" Width="20" Height="{Binding Thickness}" Margin="10" Background="Black"/>
         </StackPanel>
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
             <Grid>

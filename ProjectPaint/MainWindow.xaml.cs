@@ -1,6 +1,7 @@
 ﻿using GraphicsLibrary;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -20,20 +21,40 @@ namespace ProjectPaint
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         bool isDrawing;
         ShapeType currentShapeType = ShapeType.Ellipse2D;
         List<IShape> shapes = new List<IShape>();
         Dictionary<int, List<Image>> images = new Dictionary<int, List<Image>>();
-        List<IShape> redos = new List<IShape>();
         IShape preview;
         Color selectedColor = DrawOptions.Color;
+
+        private double thickness;
+        public double Thickness
+        {
+            get { return thickness; }
+            set
+            {
+                thickness = value;
+                OnPropertyChanged("Thickness");
+            }
+        }
 
         public MainWindow()
         {
             InitializeComponent();
             DllLoader.execute();
+            DataContext = this;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string newName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(newName));
+            }
         }
 
         public object GetInstance(string strFullyQualifiedName)
@@ -52,8 +73,8 @@ namespace ProjectPaint
 
         private void DrawingCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            redos.Clear();
             preview = (IShape)GetInstance($"{currentShapeType}");
+            preview.StrokeThickness = thickness;
             isDrawing = true;
             Point currentCoordinate = e.GetPosition(DrawingCanvas);
             preview.HandleStart(new Point2D(currentCoordinate.X, currentCoordinate.Y));
@@ -109,6 +130,11 @@ namespace ProjectPaint
         private void ColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
             selectedColor = (Color)ColorPicker.SelectedColor;
+        }
+
+        private void penThicknessChooser_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            Thickness = (double)penThicknessChooser.Value;
         }
     }
 }
