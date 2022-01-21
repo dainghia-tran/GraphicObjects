@@ -11,8 +11,8 @@ namespace GraphicsLibrary
     public abstract class IShape
     {
         public virtual string Name { get; set; }
-        public double StrokeThickness { get; set; } = DrawOptions.thickness;
-        public Color Color { get; set; } = DrawOptions.previewColor;
+        public double StrokeThickness { get; set; } = DrawOptions.Thickness;
+        public Color Color { get; set; } = DrawOptions.PreviewColor;
         public string DashStyle { get; set; } = "";
         public abstract void HandleStart(Point2D point);
         public abstract void HandleEnd(Point2D point);

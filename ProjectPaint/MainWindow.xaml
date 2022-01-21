@@ -5,8 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectPaint"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+        Title="Project Paint" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+    <DockPanel LastChildFill="True">
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <Grid>
+                <Canvas x:Name="DrawingCanvas" Background="White" ClipToBounds="True" />
+                <Border Background="Transparent"  MouseDown="DrawingCanvas_MouseDown" MouseMove="DrawingCanvas_MouseMove" MouseUp="DrawingCanvas_MouseUp"/>
+            </Grid>
+        </ScrollViewer>
+    </DockPanel>
 </Window>
