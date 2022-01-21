@@ -22,7 +22,7 @@ namespace ProjectPaint
     public partial class MainWindow : Window
     {
         bool isDrawing;
-        ShapeType currentShapeType = ShapeType.Rectangle2D;
+        ShapeType currentShapeType = ShapeType.Ellipse2D;
         List<IShape> shapes = new List<IShape>();
         Dictionary<int, List<Image>> images = new Dictionary<int, List<Image>>();
         List<IShape> redos = new List<IShape>();
