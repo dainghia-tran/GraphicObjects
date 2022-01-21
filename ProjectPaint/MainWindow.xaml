@@ -3,14 +3,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ProjectPaint"
+        xmlns:local="clr-namespace:ProjectPaint"        
+        xmlns:xctk1="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="Project Paint" Height="450" Width="800" WindowStartupLocation="CenterScreen">
     <DockPanel LastChildFill="True">
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Height="50">
+            <Label Content="Color:" VerticalAlignment="Center"></Label>
+            <xctk1:ColorPicker Name="ColorPicker" Width="50" Height="25" SelectedColor="Black" SelectedColorChanged="ColorPicker_SelectedColorChanged"/>
+        </StackPanel>
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
             <Grid>
                 <Canvas x:Name="DrawingCanvas" Background="White" ClipToBounds="True" />
-                <Border Background="Transparent"  MouseDown="DrawingCanvas_MouseDown" MouseMove="DrawingCanvas_MouseMove" MouseUp="DrawingCanvas_MouseUp"/>
+                <Border BorderBrush="Black" BorderThickness="0 1 0 0" Background="Transparent"  MouseDown="DrawingCanvas_MouseDown" MouseMove="DrawingCanvas_MouseMove" MouseUp="DrawingCanvas_MouseUp"/>
             </Grid>
         </ScrollViewer>
     </DockPanel>

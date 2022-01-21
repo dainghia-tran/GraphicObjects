@@ -1,6 +1,7 @@
 ﻿using GraphicsLibrary;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,6 +28,7 @@ namespace ProjectPaint
         Dictionary<int, List<Image>> images = new Dictionary<int, List<Image>>();
         List<IShape> redos = new List<IShape>();
         IShape preview;
+        Color selectedColor = DrawOptions.Color;
 
         public MainWindow()
         {
@@ -81,6 +83,7 @@ namespace ProjectPaint
             {
                 preview.Color = DrawOptions.Color;
                 preview.HandleEnd(newPoint);
+                preview.Color = selectedColor;
                 shapes.Add(preview);
                 DrawingCanvas.Children.Clear();
                 redraw();
@@ -101,6 +104,11 @@ namespace ProjectPaint
                 var element = shapes[i].Draw();
                 DrawingCanvas.Children.Add(element);
             }
+        }
+
+        private void ColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
+        {
+            selectedColor = (Color)ColorPicker.SelectedColor;
         }
     }
 }
