@@ -24,11 +24,21 @@ namespace ProjectPaint
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         bool isDrawing;
-        ShapeType currentShapeType = ShapeType.Ellipse2D;
         List<IShape> shapes = new List<IShape>();
         Dictionary<int, List<Image>> images = new Dictionary<int, List<Image>>();
         IShape preview;
         Color selectedColor = DrawOptions.Color;
+
+        private ShapeType currentShapeType = ShapeType.Line2D;
+        public ShapeType CurrentShapeType
+        {
+            get { return currentShapeType; }
+            set
+            {
+                currentShapeType = value;
+                OnPropertyChanged("CurrentShapeType");
+            }
+        }
 
         private double thickness;
         public double Thickness
@@ -135,6 +145,21 @@ namespace ProjectPaint
         private void penThicknessChooser_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             Thickness = (double)penThicknessChooser.Value;
+        }
+
+        private void LineButton_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentShapeType = ShapeType.Line2D;
+        }
+
+        private void RectangleButton_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentShapeType = ShapeType.Rectangle2D;
+        }
+
+        private void EllipseButton_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentShapeType = ShapeType.Ellipse2D;
         }
     }
 }

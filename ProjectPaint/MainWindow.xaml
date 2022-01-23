@@ -3,10 +3,44 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ProjectPaint"        
+        xmlns:local="clr-namespace:ProjectPaint.Converters"
         xmlns:xctk1="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="Project Paint" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <local:IsSelectedConverter x:Key="IsSelectedConverter"/>
+        <Style x:Key="DefaultButton" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.8"/>
+                    <Setter Property="Cursor" Value="None"/>
+                    <Setter Property="Background" Value="LightSteelBlue"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#ffffff" Offset="0" />
+                                <GradientStop Color="#649fd1" Offset="1" />
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <DockPanel LastChildFill="True">
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Height="50">
             <Label Content="Pen color:" VerticalAlignment="Center"/>
@@ -15,6 +49,28 @@
             <Label Content="Pen thickness:" VerticalAlignment="Center"/>
             <xctk1:DoubleUpDown Name="penThicknessChooser" Width="50" Height="25" Value="1" Minimum="1" ValueChanged="penThicknessChooser_ValueChanged" />
             <Border x:Name="thicknessPreview" Width="20" Height="{Binding Thickness}" Margin="10" Background="Black"/>
+            <Border Width="1" Margin="10" Background="LightGray"/>
+            <Border BorderThickness="1" BorderBrush="Navy" CornerRadius="4" Margin="5" Width="30" Height="30">
+                <Button Name="LineButton" ToolTip="Line" IsEnabled="{Binding CurrentShapeType, Converter={StaticResource IsSelectedConverter}, ConverterParameter=Line2D}" Click="LineButton_Click" Focusable="False" Style="{DynamicResource DefaultButton}">
+                    <Image Source="Assets/line.png" 
+                                           Width="15" Height="15" Margin="5"
+                                           RenderOptions.BitmapScalingMode="HighQuality"/>
+                </Button>
+            </Border>
+            <Border BorderThickness="1" BorderBrush="Navy" CornerRadius="4" Margin="5" Width="30" Height="30">
+                <Button Name="RectangleButton" ToolTip="Rectangle" IsEnabled="{Binding CurrentShapeType, Converter={StaticResource IsSelectedConverter}, ConverterParameter=Rectangle2D}" Click="RectangleButton_Click" Focusable="False" Style="{DynamicResource DefaultButton}">
+                    <Image Source="Assets/rectangle.png" 
+                                           Width="15" Height="15" Margin="5"
+                                           RenderOptions.BitmapScalingMode="HighQuality"/>
+                </Button>
+            </Border>
+            <Border BorderThickness="1" BorderBrush="Navy" CornerRadius="4" Margin="5" Width="30" Height="30">
+                <Button Name="EllipseButton" ToolTip="Ellipse" IsEnabled="{Binding CurrentShapeType, Converter={StaticResource IsSelectedConverter}, ConverterParameter=Ellipse2D}" Click="EllipseButton_Click" Focusable="False" Style="{DynamicResource DefaultButton}">
+                    <Image Source="Assets/ellipse.png" 
+                                           Width="15" Height="15" Margin="5"
+                                           RenderOptions.BitmapScalingMode="HighQuality"/>
+                </Button>
+            </Border>
         </StackPanel>
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
             <Grid>

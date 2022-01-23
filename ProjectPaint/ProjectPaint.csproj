@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\ellipse.png" />
+    <None Remove="Assets\line.png" />
+    <None Remove="Assets\rectangle.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.2.0" />
   </ItemGroup>
 
@@ -15,6 +21,18 @@
     <ProjectReference Include="..\GraphicsLibrary\GraphicsLibrary.csproj" />
     <ProjectReference Include="..\Line\Line.csproj" />
     <ProjectReference Include="..\Rectangle\Rectangle.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\ellipse.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\line.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\rectangle.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>
