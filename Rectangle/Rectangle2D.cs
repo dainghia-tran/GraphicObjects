@@ -1,17 +1,14 @@
-﻿using GraphicsLibrary;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace Rectangle2D
+namespace GraphicsLibrary
 {
     public class Rectangle2D : IShape
     {
-        public Point2D Start = new Point2D();
-        public Point2D End = new Point2D();
-        public new string Name { get => "Rectangle2D"; set => throw new NotImplementedException(); }
+        public override string Name => "Rectangle2D";
         public override UIElement Draw()
         {
             double tWidth = End.X - Start.X;
@@ -22,7 +19,7 @@ namespace Rectangle2D
                 Height = Math.Abs(tHeight),
                 StrokeThickness = StrokeThickness,
                 Stroke = new SolidColorBrush(Color),
-                StrokeDashArray = DoubleCollection.Parse(DashStyle),
+                StrokeDashArray = DoubleCollection.Parse(StrokePatern),
             };
             if (tWidth > 0)
             {

@@ -1,10 +1,14 @@
 ﻿using GraphicsLibrary;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -160,6 +164,93 @@ namespace ProjectPaint
         private void EllipseButton_Click(object sender, RoutedEventArgs e)
         {
             CurrentShapeType = ShapeType.Ellipse2D;
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void New_Click(object sender, RoutedEventArgs e)
+        {
+            if(shapes.Count > 0)
+            {
+                MessageBoxResult result = MessageBox.Show("You will lose all unsaved work\nAre you sure to create a new painting", "Waring", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                switch (result)
+                {
+                    case MessageBoxResult.Yes:
+                        shapes.Clear();
+                        DrawingCanvas.Children.Clear();
+                        break;
+                    case MessageBoxResult.No:
+                        break;                        
+                }
+            }
+        }
+
+        private void Open_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
+            openFileDialog.Title = "Load preset";
+            openFileDialog.DefaultExt = "json";
+            openFileDialog.Filter = "Json files (*.json)|*.json";
+            openFileDialog.RestoreDirectory = true;
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string jsonString = File.ReadAllText(openFileDialog.FileName);
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true,
+                };
+
+                List<Dictionary<string, object>> savedShapes = JsonSerializer.Deserialize<List<Dictionary<string, object>>>(jsonString, options);
+                foreach (var element in savedShapes)
+                {
+                    string shapeName = element["Name"].ToString();
+                    switch (shapeName)
+                    {
+                        case "Line2D":
+                            shapes.Add(JsonSerializer.Deserialize<Line2D>(JsonSerializer.Serialize(element), options));
+                            break;
+                        case "Rectangle2D":
+                            shapes.Add(JsonSerializer.Deserialize<Rectangle2D>(JsonSerializer.Serialize(element), options));
+                            break;
+                        case "Ellipse2D":
+                            shapes.Add(JsonSerializer.Deserialize<Ellipse2D>(JsonSerializer.Serialize(element), options));
+                            break;
+                    }
+                }
+                redraw();
+            };
+        }
+
+        private void SaveDraft_Click(object sender, RoutedEventArgs e)
+        {
+            if(shapes.Count > 0)
+            {
+                Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog();
+                saveFileDialog.Filter = "Json files (*.json)|*.json";
+                saveFileDialog.Title = "Save draft";
+                saveFileDialog.RestoreDirectory = true;
+                Nullable<bool> result = saveFileDialog.ShowDialog();
+                if (result == true)
+                {
+                    String fileName = saveFileDialog.FileName;
+                    string jsonString = JsonSerializer.Serialize(shapes);
+                    string beautified = JToken.Parse(jsonString).ToString(Newtonsoft.Json.Formatting.Indented);
+                    File.WriteAllText(fileName, beautified);
+                    MessageBox.Show($@"Saved to {saveFileDialog.FileName}", "Project Paint", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Your work is empty", "Project Paint", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
+        private void SaveImage_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

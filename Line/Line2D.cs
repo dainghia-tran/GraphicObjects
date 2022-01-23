@@ -4,13 +4,11 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace Line2D
+namespace GraphicsLibrary
 {
     public class Line2D : IShape
     {
-        public override string Name { get => "Line2D"; set => throw new NotImplementedException(); }
-        public Point2D Start = new Point2D();
-        public Point2D End = new Point2D();
+        public override string Name => "Line2D"; 
         public override UIElement Draw()
         {
             return new Line()
@@ -21,7 +19,7 @@ namespace Line2D
                 Y2 = End.Y,
                 StrokeThickness = StrokeThickness,
                 Stroke = new SolidColorBrush(Color),
-                StrokeDashArray = DoubleCollection.Parse(DashStyle),
+                StrokeDashArray = DoubleCollection.Parse(StrokePatern),
             };
         }
 

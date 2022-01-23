@@ -5,13 +5,11 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace Ellipse2D
+namespace GraphicsLibrary
 {
     public class Ellipse2D : IShape
     {
-        public Point2D Start = new Point2D();
-        public Point2D End = new Point2D();
-        public new string Name { get => "Ellipse2D"; set => throw new NotImplementedException(); }
+        public override string Name => "Ellipse2D";
         public override UIElement Draw()
         {
             double tWidth = End.X - Start.X;
@@ -22,7 +20,7 @@ namespace Ellipse2D
                 Height = Math.Abs(tHeight),
                 StrokeThickness = StrokeThickness,
                 Stroke = new SolidColorBrush(Color),
-                StrokeDashArray = DoubleCollection.Parse(DashStyle),
+                StrokeDashArray = DoubleCollection.Parse(StrokePatern),
             };
             if (tWidth > 0)
             {
