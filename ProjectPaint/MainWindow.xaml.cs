@@ -33,6 +33,8 @@ namespace ProjectPaint
         IShape preview;
         Color selectedColor = DrawOptions.Color;
         bool onShift = false;
+        bool onCtrl = false;
+        List<IShape> history = new List<IShape>();
 
         private ShapeType currentShapeType = ShapeType.Line2D;
         public ShapeType CurrentShapeType
@@ -324,6 +326,18 @@ namespace ProjectPaint
             {
                 onShift = true;
             }
+            else if (e.Key == Key.LeftCtrl)
+            {
+                onCtrl = true;
+            }
+            else if (onCtrl && e.Key == Key.Z)
+            {
+                onUndo();
+            }
+            else if (onCtrl && e.Key == Key.Y)
+            {
+                onRedo();
+            }
         }
         private void OnButtonKeyUp(object sender, KeyEventArgs e)
         {
@@ -331,6 +345,55 @@ namespace ProjectPaint
             {
                 onShift = false;
             }
+            else if (e.Key == Key.LeftCtrl)
+            {
+                onCtrl = false;
+            }
+        }
+
+        private void onUndo()
+        {
+            if (images.ContainsKey(0) && shapes.Count == 0)
+            {
+                if (images[0].Count > 0)
+                {
+                    images[0].RemoveAt(images[0].Count - 1);
+                    DrawingCanvas.Children.RemoveAt(DrawingCanvas.Children.Count - 1);
+                }
+            }
+            if (shapes.Count > 0)
+            {
+                if (images.ContainsKey(shapes.Count) && images[shapes.Count].Count > 0)
+                {
+                    images[shapes.Count].RemoveAt(images[shapes.Count].Count - 1);
+                }
+                else
+                {
+                    history.Add(shapes[shapes.Count - 1]);
+                    shapes.RemoveAt(shapes.Count - 1);
+                }
+                DrawingCanvas.Children.RemoveAt(DrawingCanvas.Children.Count - 1);
+            }
+        }
+
+        private void onRedo()
+        {
+            if (history.Count > 0)
+            {
+                shapes.Add(history[history.Count - 1]);
+                DrawingCanvas.Children.Add(shapes[shapes.Count - 1].Draw());
+                history.RemoveAt(history.Count - 1);
+            }
+        }
+
+        private void UndoButton_Click(object sender, RoutedEventArgs e)
+        {
+            onUndo();
+        }
+
+        private void RedoButton_Click(object sender, RoutedEventArgs e)
+        {
+            onRedo();
         }
     }
 }

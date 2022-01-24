@@ -10,6 +10,8 @@
     <None Remove="Assets\ellipse.png" />
     <None Remove="Assets\line.png" />
     <None Remove="Assets\rectangle.png" />
+    <None Remove="Assets\redo.png" />
+    <None Remove="Assets\undo.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,6 +34,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\rectangle.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\redo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\undo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
