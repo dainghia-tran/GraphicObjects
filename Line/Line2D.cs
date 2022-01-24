@@ -30,7 +30,15 @@ namespace GraphicsLibrary
 
         public override void HandleShiftMode()
         {
-            throw new System.NotImplementedException();
+            double diff = Math.Abs(End.X - Start.X) - Math.Abs(End.Y - Start.Y);
+            if (diff > 0)
+            {
+                End.Y = Start.Y;
+            }
+            else
+            {
+                End.X = Start.X;
+            }
         }
 
         public override void HandleStart(Point2D point)

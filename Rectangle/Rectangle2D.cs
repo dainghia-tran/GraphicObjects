@@ -48,7 +48,54 @@ namespace GraphicsLibrary
 
         public override void HandleShiftMode()
         {
-            throw new NotImplementedException();
+            double tWidth = Math.Abs(End.X - Start.X);
+            double tHeight = Math.Abs(End.Y - Start.Y);
+            double diff = tWidth < tHeight ? tWidth : tHeight;
+
+            if (End.X > Start.X && End.Y > Start.Y)
+            {
+                if (tWidth > tHeight)
+                {
+                    End.X = Start.X + diff;
+                }
+                else
+                {
+                    End.Y = Start.Y + diff;
+                }
+            }
+            else if (End.X > Start.X && End.Y < Start.Y)
+            {
+                if (tWidth > tHeight)
+                {
+                    End.X = Start.X + diff;
+                }
+                else
+                {
+                    End.Y = Start.Y - diff;
+                }
+            }
+            else if (End.X < Start.X && End.Y > Start.Y)
+            {
+                if (tWidth > tHeight)
+                {
+                    End.X = Start.X - diff;
+                }
+                else
+                {
+                    End.Y = Start.Y + diff;
+                }
+            }
+            else
+            {
+                if (tWidth > tHeight)
+                {
+                    End.X = Start.X - diff;
+                }
+                else
+                {
+                    End.Y = Start.Y - diff;
+                }
+            }
         }
 
         public override void HandleStart(Point2D point)

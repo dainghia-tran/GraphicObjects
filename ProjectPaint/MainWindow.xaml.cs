@@ -32,6 +32,7 @@ namespace ProjectPaint
         Dictionary<int, List<Image>> images = new Dictionary<int, List<Image>>();
         IShape preview;
         Color selectedColor = DrawOptions.Color;
+        bool onShift = false;
 
         private ShapeType currentShapeType = ShapeType.Line2D;
         public ShapeType CurrentShapeType
@@ -60,6 +61,9 @@ namespace ProjectPaint
             InitializeComponent();
             DllLoader.execute();
             DataContext = this;
+
+            KeyDown += new KeyEventHandler(OnButtonKeyDown);
+            KeyUp += new KeyEventHandler(OnButtonKeyUp);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -102,6 +106,11 @@ namespace ProjectPaint
 
                 Point2D newPoint = new Point2D(current.X, current.Y);
                 preview.HandleEnd(newPoint);
+                if (onShift)
+                {
+                    preview.HandleShiftMode();
+                }
+
                 DrawingCanvas.Children.Clear();
                 redraw();
                 preview.Color = DrawOptions.PreviewColor;
@@ -118,6 +127,11 @@ namespace ProjectPaint
             {
                 preview.Color = DrawOptions.Color;
                 preview.HandleEnd(newPoint);
+                if (onShift)
+                {
+                    preview.HandleShiftMode();
+                }
+
                 preview.Color = selectedColor;
                 shapes.Add(preview);
                 DrawingCanvas.Children.Clear();
@@ -302,6 +316,21 @@ namespace ProjectPaint
                 images[shapes.Count].Add(image);
                 DrawingCanvas.Children.Add(image);
             };
+        }
+
+        private void OnButtonKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.LeftShift)
+            {
+                onShift = true;
+            }
+        }
+        private void OnButtonKeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.LeftShift)
+            {
+                onShift = false;
+            }
         }
     }
 }
