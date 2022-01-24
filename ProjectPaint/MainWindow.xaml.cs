@@ -166,14 +166,9 @@ namespace ProjectPaint
             CurrentShapeType = ShapeType.Ellipse2D;
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void New_Click(object sender, RoutedEventArgs e)
         {
-            if(shapes.Count > 0)
+            if (shapes.Count > 0)
             {
                 MessageBoxResult result = MessageBox.Show("You will lose all unsaved work\nAre you sure to create a new painting", "Waring", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                 switch (result)
@@ -183,12 +178,12 @@ namespace ProjectPaint
                         DrawingCanvas.Children.Clear();
                         break;
                     case MessageBoxResult.No:
-                        break;                        
+                        break;
                 }
             }
         }
 
-        private void Open_Click(object sender, RoutedEventArgs e)
+        private void OpenDraft_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
             openFileDialog.Title = "Load preset";
@@ -226,7 +221,7 @@ namespace ProjectPaint
 
         private void SaveDraft_Click(object sender, RoutedEventArgs e)
         {
-            if(shapes.Count > 0)
+            if (shapes.Count > 0)
             {
                 Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog();
                 saveFileDialog.Filter = "Json files (*.json)|*.json";
@@ -250,7 +245,63 @@ namespace ProjectPaint
 
         private void SaveImage_Click(object sender, RoutedEventArgs e)
         {
+            Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog();
+            saveFileDialog.Filter = "Images|*.png";
+            saveFileDialog.Title = "Save as PNG";
+            saveFileDialog.RestoreDirectory = true;
+            Nullable<bool> result = saveFileDialog.ShowDialog();
+            if (result == true)
+            {
+                string fileName = saveFileDialog.FileName;
+                RenderTargetBitmap renderBitmap = new RenderTargetBitmap((int)DrawingCanvas.ActualWidth, (int)DrawingCanvas.ActualHeight, 96d, 96d, PixelFormats.Pbgra32);
+                DrawingCanvas.Measure(new Size((int)DrawingCanvas.ActualWidth, (int)DrawingCanvas.ActualHeight));
+                DrawingCanvas.Arrange(new Rect(new Size((int)DrawingCanvas.ActualWidth, (int)DrawingCanvas.ActualHeight)));
 
+                renderBitmap.Render(DrawingCanvas);
+                PngBitmapEncoder encoder = new PngBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
+
+                using (FileStream file = File.Create(fileName))
+                {
+                    encoder.Save(file);
+                }
+            }
+        }
+
+        private void OpenImage_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
+            openFileDialog.Title = "Open image";
+            openFileDialog.Filter = "Images|*.png;*.bmp;*.jpg";
+            openFileDialog.RestoreDirectory = true;
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string fileName = openFileDialog.FileName;
+                preview = null;
+                BitmapImage bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.UriSource = new Uri(fileName, UriKind.Absolute);
+                bitmap.EndInit();
+
+                Image image = new Image();
+                image.Source = bitmap;
+                image.Width = bitmap.Width;
+                image.Height = bitmap.Height;
+                if (bitmap.Width > DrawingCanvas.Width || double.IsNaN(DrawingCanvas.Width))
+                {
+                    DrawingCanvas.Width = bitmap.Width > DrawingCanvas.ActualWidth ? bitmap.Width : double.NaN;
+                }
+                if (bitmap.Height > DrawingCanvas.Height || double.IsNaN(DrawingCanvas.Height))
+                {
+                    DrawingCanvas.Height = bitmap.Height > DrawingCanvas.ActualHeight ? bitmap.Height : double.NaN;
+                }
+                if (!images.ContainsKey(shapes.Count))
+                {
+                    images[shapes.Count] = new List<Image>();
+                }
+                images[shapes.Count].Add(image);
+                DrawingCanvas.Children.Add(image);
+            };
         }
     }
 }
