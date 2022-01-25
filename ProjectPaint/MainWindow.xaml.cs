@@ -226,19 +226,15 @@ namespace ProjectPaint
                 List<Dictionary<string, object>> savedShapes = JsonSerializer.Deserialize<List<Dictionary<string, object>>>(jsonString, options);
                 foreach (var element in savedShapes)
                 {
-                    string shapeName = element["Name"].ToString();
-                    switch (shapeName)
-                    {
-                        case "Line2D":
-                            shapes.Add(JsonSerializer.Deserialize<Line2D>(JsonSerializer.Serialize(element), options));
-                            break;
-                        case "Rectangle2D":
-                            shapes.Add(JsonSerializer.Deserialize<Rectangle2D>(JsonSerializer.Serialize(element), options));
-                            break;
-                        case "Ellipse2D":
-                            shapes.Add(JsonSerializer.Deserialize<Ellipse2D>(JsonSerializer.Serialize(element), options));
-                            break;
-                    }
+                    IShape data = (IShape)GetInstance(element["Name"].ToString());
+                    data.Name = element["Name"].ToString();
+                    data.Color = JsonSerializer.Deserialize<Color>(JsonSerializer.Serialize(element["Color"]));
+                    data.Start = JsonSerializer.Deserialize<Point2D>(JsonSerializer.Serialize(element["Start"]));
+                    data.End = JsonSerializer.Deserialize<Point2D>(JsonSerializer.Serialize(element["End"]));
+                    data.StrokeStyle = JsonSerializer.Deserialize<string>(JsonSerializer.Serialize(element["StrokeStyle"]));
+                    data.StrokeThickness = JsonSerializer.Deserialize<double>(JsonSerializer.Serialize(element["StrokeThickness"]));
+
+                    shapes.Add(data);
                 }
                 redraw();
             };
