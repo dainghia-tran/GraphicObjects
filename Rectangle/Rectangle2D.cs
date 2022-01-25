@@ -19,7 +19,7 @@ namespace GraphicsLibrary
                 Height = Math.Abs(tHeight),
                 StrokeThickness = StrokeThickness,
                 Stroke = new SolidColorBrush(Color),
-                StrokeDashArray = DoubleCollection.Parse(StrokePatern),
+                StrokeDashArray = DoubleCollection.Parse(StrokeStyle),
             };
             if (tWidth > 0)
             {

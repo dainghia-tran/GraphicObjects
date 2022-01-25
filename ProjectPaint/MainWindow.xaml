@@ -61,6 +61,14 @@
             <xctk1:DoubleUpDown Name="penThicknessChooser" Width="50" Height="25" Value="1" Minimum="1" ValueChanged="penThicknessChooser_ValueChanged" />
             <Border x:Name="thicknessPreview" Width="20" Height="{Binding Thickness}" Margin="10" Background="Black"/>
             <Border Width="1" Margin="10" Background="LightGray"/>
+            <Label Content="Stroke type:" VerticalAlignment="Center"></Label>
+            <ComboBox x:Name="StrokeType" Height="20" Width="70" SelectionChanged="StrokeType_SelectionChanged" SelectedIndex="0">
+                <ComboBoxItem Content="━━" Tag="Default" />
+                <ComboBoxItem Content="▪▪▪" Tag="1" />
+                <ComboBoxItem Content="---" Tag="5" />
+                <ComboBoxItem Content="⁃▪▪" Tag="5 1 1 1 1 1" />
+            </ComboBox>
+            <Border Width="1" Margin="10" Background="LightGray"/>
             <Border BorderThickness="1" BorderBrush="Navy" CornerRadius="4" Margin="5" Width="30" Height="30">
                 <Button Name="LineButton" ToolTip="Line" IsEnabled="{Binding CurrentShapeType, Converter={StaticResource IsSelectedConverter}, ConverterParameter=Line2D}" Click="LineButton_Click" Focusable="False" Style="{DynamicResource DefaultButton}">
                     <Image Source="Assets/line.png" 

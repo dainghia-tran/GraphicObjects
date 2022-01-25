@@ -19,7 +19,7 @@ namespace GraphicsLibrary
                 Y2 = End.Y,
                 StrokeThickness = StrokeThickness,
                 Stroke = new SolidColorBrush(Color),
-                StrokeDashArray = DoubleCollection.Parse(StrokePatern),
+                StrokeDashArray = DoubleCollection.Parse(StrokeStyle),
             };
         }
 

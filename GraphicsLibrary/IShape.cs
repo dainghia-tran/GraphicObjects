@@ -16,7 +16,7 @@ namespace GraphicsLibrary
         public Point2D Start { get; set; }
         public Point2D End { get; set; }
         public Color Color { get; set; } = DrawOptions.PreviewColor;
-        public string StrokePatern { get; set; } = "";
+        public string StrokeStyle { get; set; } = "";
 
         public abstract void HandleStart(Point2D point);
         public abstract void HandleEnd(Point2D point);

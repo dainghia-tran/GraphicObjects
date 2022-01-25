@@ -35,6 +35,7 @@ namespace ProjectPaint
         bool onShift = false;
         bool onCtrl = false;
         List<IShape> history = new List<IShape>();
+        string strokeStyle = DrawOptions.StrokeStyle;
 
         private ShapeType currentShapeType = ShapeType.Line2D;
         public ShapeType CurrentShapeType
@@ -112,6 +113,7 @@ namespace ProjectPaint
                 {
                     preview.HandleShiftMode();
                 }
+                preview.StrokeStyle = strokeStyle;
 
                 DrawingCanvas.Children.Clear();
                 redraw();
@@ -133,6 +135,7 @@ namespace ProjectPaint
                 {
                     preview.HandleShiftMode();
                 }
+                preview.StrokeStyle = strokeStyle;
 
                 preview.Color = selectedColor;
                 shapes.Add(preview);
@@ -394,6 +397,21 @@ namespace ProjectPaint
         private void RedoButton_Click(object sender, RoutedEventArgs e)
         {
             onRedo();
+        }
+
+        private void StrokeType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBoxItem selectedItem = (ComboBoxItem)StrokeType.SelectedItem;
+            string value = selectedItem.Tag.ToString();
+
+            if (value.Equals("Default"))
+            {
+                strokeStyle = DrawOptions.StrokeStyle;
+            }
+            else
+            {
+                strokeStyle = value;
+            }
         }
     }
 }
