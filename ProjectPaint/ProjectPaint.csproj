@@ -12,6 +12,8 @@
     <None Remove="Assets\rectangle.png" />
     <None Remove="Assets\redo.png" />
     <None Remove="Assets\undo.png" />
+    <None Remove="Assets\zoom_in.png" />
+    <None Remove="Assets\zoom_out.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,6 +42,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\undo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\zoom_in.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\zoom_out.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

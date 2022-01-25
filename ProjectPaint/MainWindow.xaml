@@ -101,6 +101,17 @@
                                            Width="15" Height="15" Margin="5"
                                            RenderOptions.BitmapScalingMode="HighQuality"/>
             </Button>
+            <Border Width="1" Margin="10" Background="LightGray"/>
+            <Button Name="ZoomInButton" Width="30" Height="30" ToolTip="Redo" Click="ZoomInButton_Click" Focusable="False" Style="{DynamicResource DefaultButton}">
+                <Image Source="Assets/zoom_in.png" 
+                                           Width="15" Height="15" Margin="5"
+                                           RenderOptions.BitmapScalingMode="HighQuality"/>
+            </Button>
+            <Button Name="ZoomOutButton" Width="30" Height="30" ToolTip="Redo" Click="ZoomOutButton_Click" Focusable="False" Style="{DynamicResource DefaultButton}">
+                <Image Source="Assets/zoom_out.png" 
+                                           Width="15" Height="15" Margin="5"
+                                           RenderOptions.BitmapScalingMode="HighQuality"/>
+            </Button>
         </StackPanel>
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
             <Grid>

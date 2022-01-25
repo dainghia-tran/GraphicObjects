@@ -59,6 +59,12 @@ namespace ProjectPaint
             }
         }
 
+
+        private double zoomMax = 5;
+        private double zoomMin = 0.5;
+        private double zoomSpeed = 0.005;
+        private double zoom = 1;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -249,7 +255,7 @@ namespace ProjectPaint
                 Nullable<bool> result = saveFileDialog.ShowDialog();
                 if (result == true)
                 {
-                    String fileName = saveFileDialog.FileName;
+                    string fileName = saveFileDialog.FileName;
                     string jsonString = JsonSerializer.Serialize(shapes);
                     string beautified = JToken.Parse(jsonString).ToString(Newtonsoft.Json.Formatting.Indented);
                     File.WriteAllText(fileName, beautified);
@@ -413,5 +419,51 @@ namespace ProjectPaint
                 strokeStyle = value;
             }
         }
+
+        private void DrawingCanvas_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            zoom += zoomSpeed * e.Delta; // Ajust zooming speed (e.Delta = Mouse spin value )
+            if (zoom < zoomMin) { zoom = zoomMin; } // Limit Min Scale
+            if (zoom > zoomMax) { zoom = zoomMax; } // Limit Max Scale
+
+            Point mousePos = e.GetPosition(DrawingCanvas);
+
+            if (zoom > 1)
+            {
+                DrawingCanvas.RenderTransform = new ScaleTransform(zoom, zoom, mousePos.X, mousePos.Y); // transform Canvas size from mouse position
+            }
+            else
+            {
+                DrawingCanvas.RenderTransform = new ScaleTransform(zoom, zoom); // transform Canvas size
+            }
+        }
+
+        private void ZoomInButton_Click(object sender, RoutedEventArgs e)
+        {
+            ZoomCanvas(true);
+        }
+
+        private void ZoomOutButton_Click(object sender, RoutedEventArgs e)
+        {
+            ZoomCanvas(false);
+        }
+
+        private void ZoomCanvas(bool zoomIn)
+        {
+            zoom += zoomSpeed * (zoomIn ? 20 : -20);
+            if (zoom < zoomMin) { zoom = zoomMin; }
+            if (zoom > zoomMax) { zoom = zoomMax; }
+
+
+            if (zoom > 1)
+            {
+                DrawingCanvas.RenderTransform = new ScaleTransform(zoom, zoom);
+            }
+            else
+            {
+                DrawingCanvas.RenderTransform = new ScaleTransform(zoom, zoom);
+            }
+        }
     }
+ 
 }
