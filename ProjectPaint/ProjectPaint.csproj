@@ -4,10 +4,12 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Assets\ellipse.png" />
+    <None Remove="Assets\icon.png" />
     <None Remove="Assets\line.png" />
     <None Remove="Assets\rectangle.png" />
     <None Remove="Assets\redo.png" />
@@ -30,6 +32,9 @@
 
   <ItemGroup>
     <Resource Include="Assets\ellipse.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\line.png">

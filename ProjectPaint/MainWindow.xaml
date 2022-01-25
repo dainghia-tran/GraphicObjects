@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:ProjectPaint.Converters"
         xmlns:xctk1="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="Project Paint" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+        Icon="Assets/icon.png"
+        Title="Project Paint" Height="700" Width="800" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <local:IsSelectedConverter x:Key="IsSelectedConverter"/>
         <Style x:Key="DefaultButton" TargetType="{x:Type Button}">
