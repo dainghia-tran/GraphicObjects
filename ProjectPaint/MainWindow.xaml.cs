@@ -464,6 +464,11 @@ namespace ProjectPaint
                 DrawingCanvas.RenderTransform = new ScaleTransform(zoom, zoom);
             }
         }
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Application.Current.Shutdown();
+        }
     }
  
 }

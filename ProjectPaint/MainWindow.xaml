@@ -51,7 +51,7 @@
                 <MenuItem Header="Open image"  Click="OpenImage_Click"/>
                 <MenuItem Header="Save as _image" Click="SaveImage_Click" />
                 <Separator />
-                <MenuItem Header="_Exit" />
+                <MenuItem Header="_Exit" Click="Exit_Click" />
             </MenuItem>
         </Menu>
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Height="50">
